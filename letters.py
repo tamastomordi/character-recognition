@@ -1,15 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from emnist import extract_training_samples, extract_test_samples
+from emnist import extract_test_samples
 
-I_TRAINING = np.array(extract_training_samples('letters')[0])
-L_TRAINING = np.array(extract_training_samples('letters')[1])
+x_letters = np.array(extract_test_samples('letters')[0])
+y_letters = np.array(extract_test_samples('letters')[1]) - 1
 
-I_TEST = np.array(extract_test_samples('letters')[0])
-L_TEST = np.array(extract_test_samples('letters')[1])
+x_digits = np.array(extract_test_samples('digits')[0])
+y_digits = np.array(extract_test_samples('digits')[1]) + 26
 
-print("This is a letter: ", chr(96 + L_TRAINING[5]))
+x = np.concatenate((x_letters, x_digits), axis = 0)
+y = np.concatenate((y_letters, y_digits), axis = 0)
 
-plt.imshow(I_TRAINING[100], cmap = plt.cm.binary)
+curr = 0
+
+if y[curr] < 26:
+   print("This is the letter: ", chr(97 + y[curr]))
+else:
+   print("This is the digit: ", chr(48 + (y[curr] - 26)))
+
+plt.imshow(x[curr], cmap = plt.cm.binary)
 plt.show()
