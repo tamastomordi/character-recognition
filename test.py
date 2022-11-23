@@ -27,4 +27,4 @@ print('Accuracy: ', accuracy)
 # Model1 - Loss: 2.22 Acc: 0.36
 # Model2 - Loss: 1.16 Acc: 0.71
 # Model3 - Loss: 0.78 Acc: 0.79
-# Model4 - Loss: 0.45 Acc: 0.89
+# Model4 - Loss: 0.49 Acc: 0.88
