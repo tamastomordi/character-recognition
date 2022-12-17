@@ -1,30 +1,30 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+
+import cv2
 import numpy as np
 from tensorflow import keras
 
-from emnist import extract_test_samples
+model = keras.models.load_model('./saved_models/model_lenet5')
 
-x_letters = np.array(extract_test_samples('letters')[0])
-y_letters = np.array(extract_test_samples('letters')[1]) - 1
+x, y = [], []
 
-x_digits = np.array(extract_test_samples('digits')[0])
-y_digits = np.array(extract_test_samples('digits')[1]) + 26
+for filename in os.listdir('./letters/'):
+   img = cv2.imread(os.path.join('./letters/', filename), cv2.IMREAD_GRAYSCALE)
+   if img is not None:
+      img = cv2.resize(img, (28, 28), interpolation = cv2.INTER_LINEAR)
+      img = cv2.bitwise_not(img)
+      img = np.array(img) / 255
+      x.append(img)
+      if ord(filename[0]) < 97:
+         label = ord(filename[0]) - (48 - 26)
+      else: 
+         label = ord(filename[0]) - 97
+      y.append(label)
 
-x = np.concatenate((x_letters, x_digits), axis = 0)
-y = np.concatenate((y_letters, y_digits), axis = 0)
-
-x = keras.utils.normalize(x, axis = 1)
-x = x.reshape(-1, 28, 28, 1)
-
-model = keras.models.load_model('./model_4')
+x = np.array(x).reshape(-1, 28, 28, 1)
+y = np.array(y)
 
 loss, accuracy = model.evaluate(x, y)
 print('Loss: ', loss)
 print('Accuracy: ', accuracy)
-
-# On EMNIST test samples:
-# Model1 - Loss: 2.22 Acc: 0.36
-# Model2 - Loss: 1.16 Acc: 0.71
-# Model3 - Loss: 0.78 Acc: 0.79
-# Model4 - Loss: 0.49 Acc: 0.88
