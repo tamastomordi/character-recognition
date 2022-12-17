@@ -25,14 +25,14 @@ x_val = np.concatenate((x_letters, x_digits), axis = 0)
 y_val = np.concatenate((y_letters, y_digits), axis = 0)
 
 # Plot an image from the EMNIST dataset:
-"""
-show = 0
+'''
+index = 0
 
-if y_train[show] < 26:
-   print("This is the letter: ", chr(97 + y_train[show]))
+if y_train[index] < 26:
+   print("This is the letter: ", chr(97 + y_train[index]))
 else:
-   print("This is the digit: ", chr(48 + (y_train[show] - 26)))
+   print("This is the digit: ", chr(48 + (y_train[index] - 26)))
 
-plt.imshow(x_train[show], cmap = plt.cm.binary)
+plt.imshow(x_train[index], cmap='gray')
 plt.show()
-"""
+'''
